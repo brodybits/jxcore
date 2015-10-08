@@ -798,19 +798,14 @@
 
         while (infoBox[index] < nextTickLength) {
           callback = nextTickQueue[infoBox[index]++].callback;
-          // threw = true;
+          threw = true;
           try {
             callback();
-            // threw = false;
+            threw = false;
           }
-          // JIT doesn't support try/finally!
-          // finally {
-          // if (threw)
-          // tickDone(infoBox[depth]);
-          // }
-          catch (ee) {
-            tickDone(infoBox[depth]);
-            throw ee;
+          finally {
+            if (threw)
+              tickDone(infoBox[depth]);
           }
         }
       }
@@ -1374,7 +1369,7 @@
     var source = NativeModule.getSource(this.id);
     source = NativeModule.wrap(source, this.id === 'module');
 
-    var fn = runInThisContext(source, this.filename, true, 0);
+    var fn = runInThisContext(source, this.filename, true, 0x0);
 
     fn(this.exports, NativeModule.require, this, this.filename, undefined,
         global.setTimeout, global.setInterval, global.process);

@@ -86,7 +86,7 @@ distclean:
 	-rm -rf deps/icu4c*.tgz deps/icu4c*.zip deps/icu-tmp
 
 test: all
-	$(PYTHON) tools/test.py --mode=release simple
+	$(PYTHON) tools/test.py --mode=release simple message
 	$(MAKE) jslint
 	$(MAKE) cpplint
 
