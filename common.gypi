@@ -14,14 +14,16 @@
     # Use at your own risk. Do *NOT* report bugs if this option is enabled.
     'node_unsafe_optimizations%': 0,
 
-    # Enable V8's post-mortem debugging only on unix flavors.
     'conditions': [
       ['uclibc_defined == 1', {
         'defines':['POSIX_UCLIBC_DEFINED'],
-      }], 
+      }],
+
+      # Enable V8's post-mortem debugging only on unix flavors (and no Mozilla engine).
       ['OS != "win" and node_engine_mozilla!=1', {
         'v8_postmortem_support': 'true'
       }],
+
       ['(GENERATOR == "ninja" or OS == "mac") and node_engine_mozilla!=1', {
         'OBJ_DIR': '<(PRODUCT_DIR)/obj',
         'V8_BASE': '<(PRODUCT_DIR)/libv8_base.a',
@@ -36,19 +38,21 @@
       ['GENERATOR != "ninja" and node_engine_mozilla!=1', {
         'OBJ_DIR': '<(PRODUCT_DIR)/obj.target',
       }],
-      # A flag for POSIX platforms
-        ['OS=="win"', {
-          'os_posix%': 0,
-        }, {
-          'os_posix%': 1,
-        }],
 
-        # A flag for BSD platforms
-        ['OS=="freebsd" or OS=="openbsd"', {
-          'os_bsd%': 1,
-        }, {
-          'os_bsd%': 0,
-        }],
+      # A flag for POSIX platforms
+      ['OS=="win"', {
+        'os_posix%': 0,
+      }, {
+        'os_posix%': 1,
+      }],
+
+      # A flag for BSD platforms
+      ['OS=="freebsd" or OS=="openbsd"', {
+        'os_bsd%': 1,
+      }, {
+        'os_bsd%': 0,
+      }],
+
       # set v8's host and target architecture
       ['target_arch=="x64"', {  # set v8's host and target architecture
         'target_arch%': 'x64',
@@ -287,7 +291,7 @@
           'EMBED_BITCODE': 'YES',
           'IPHONEOS_DEPLOYMENT_TARGET': '6.0',
           'GCC_GENERATE_DEBUGGING_SYMBOLS': 'NO',
-          
+
           'USE_HEADERMAP': 'NO',
           'OTHER_CFLAGS': [
             '-fno-strict-aliasing',
