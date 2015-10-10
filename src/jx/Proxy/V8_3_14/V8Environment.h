@@ -100,10 +100,11 @@ typedef void (*JS_FINALIZER_METHOD)(JS_HANDLE_VALUE_REF val, void *data);
 
 #define JS_MAKE_WEAK(a, b, c) a.MakeWeak(b, c)
 
-#define JS_ENGINE_LOCKER()                          \
-  v8::Locker locker;                                \
-  v8::Isolate *isolate = v8::Isolate::GetCurrent(); \
-  v8::HandleScope scope
+#define JS_ENGINE_LOCKER()                   \
+  v8::Isolate *isolate = v8::Isolate::New(); \
+  v8::Locker locker(isolate);                \
+  v8::Isolate::Scope isolate_scope(isolate); \
+  v8::HandleScope scope;
 
 #define JS_ENGINE_INITIALIZE() v8::V8::Initialize()
 
