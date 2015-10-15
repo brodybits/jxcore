@@ -1,5 +1,9 @@
 // Copyright & License details are available under JXCORE_LICENSE file
 
+if (process.env.SKIP_BROADCAST) {
+  console.error('Skipping test due to SKIP_BROADCAST environmental variable.');
+  process.exit();
+}
 
 var common = require('../common'),
     assert = require('assert'),

@@ -18,5 +18,7 @@ install:
   - sudo apt-get install python-setuptools
 
 script: 
- - ./configure --engine-mozilla && make
+ # - ./configure --engine-mozilla && make
+ # - SKIP_BROADCAST=yeah make test
  - ./configure && make
+ - SKIP_BROADCAST=yeah make test
